@@ -84,6 +84,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -126,14 +127,13 @@ private fun ARC() {
     }
     var screen by remember { mutableStateOf("home") }
 
-    fun save() = store.save(state.value)
-    fun go(s: String) { screen = s }
-    fun refreshExercises() {
-        exercises.clear()
-        exercises.addAll(seedExercises())
-        exercises.addAll(state.value.customExercises)
-    }
-
+  val save: () -> Unit = { store.save(state.value) }
+  val go: (String) -> Unit = { screen = it }
+    fval refreshExercises: () -> Unit = {
+    exercises.clear()
+    exercises.addAll(seedExercises())
+    exercises.addAll(state.value.customExercises)
+}
     MaterialTheme(
         colorScheme = darkColorScheme(
             background = BG,
